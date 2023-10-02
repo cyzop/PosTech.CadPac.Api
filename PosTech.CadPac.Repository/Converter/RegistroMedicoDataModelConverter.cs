@@ -8,8 +8,7 @@ namespace PosTech.CadPac.Repository.Converter
     {
         public RegistroMedico Convert(RegistroMedicoDataModel origing)
         {
-            //TODO:
-            throw new NotImplementedException();
+            return new RegistroMedico(origing.Id, origing.Data, origing.Texto, origing.Tipo);
         }
     }
 }

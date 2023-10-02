@@ -5,6 +5,14 @@ namespace PosTech.CadPac.Repository.DataModel
 {
     public class RegistroMedicoDataModel : Entity
     {
+        public RegistroMedicoDataModel(string id, DateTime data, string texto, TipoRegistroMedico tipo)
+        {
+            Id = id;
+            Data = data;
+            Texto = texto;
+            Tipo = tipo;
+        }
+
         public string Id
         {
             get;

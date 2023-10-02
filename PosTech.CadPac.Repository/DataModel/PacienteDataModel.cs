@@ -6,6 +6,16 @@ namespace PosTech.CadPac.Repository.DataModel
 {
     public class PacienteDataModel : Entity
     {
+        public PacienteDataModel(string id, string nome, DateTime dataNascimento, string email, string responsavel)
+        {
+            Id = id;
+            Nome = nome;
+            DataNascimento = dataNascimento;
+            Email = email;
+            Responsavel = responsavel;
+            HistoricoMedico = new List<RegistroMedicoDataModel>();
+        }
+
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id
@@ -40,6 +50,11 @@ namespace PosTech.CadPac.Repository.DataModel
         {
             get;
             private set;
+        }
+
+        public void AddRegistroMedico(RegistroMedicoDataModel registroMedicoDataModel)
+        {
+            this.HistoricoMedico.ToList().Add(registroMedicoDataModel);
         }
     }
 }

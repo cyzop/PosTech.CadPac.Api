@@ -4,8 +4,9 @@ namespace PosTech.CadPac.Domain.Entities
 {
     public class Paciente : Entity
     {
-        public Paciente(string nome, DateTime dataNascimento, string email, string responsavel)
+        public Paciente(string id, string nome, DateTime dataNascimento, string email, string responsavel)
         {
+            Id = id;
             Nome = nome;
             DataNascimento = dataNascimento;
             Email = email;

@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.CadPac.Domain", "Po
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.CadPac.Domain.Shared", "PosTech.CadPac.Domain.Shared\PosTech.CadPac.Domain.Shared.csproj", "{6A2FAED3-97FE-4790-9C97-472BA991AD29}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.CadPac.Services", "PosTech.CadPac.Services\PosTech.CadPac.Services.csproj", "{A006806F-1C22-437A-832B-9DD3C15D797E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{6A2FAED3-97FE-4790-9C97-472BA991AD29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A2FAED3-97FE-4790-9C97-472BA991AD29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A2FAED3-97FE-4790-9C97-472BA991AD29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A006806F-1C22-437A-832B-9DD3C15D797E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A006806F-1C22-437A-832B-9DD3C15D797E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A006806F-1C22-437A-832B-9DD3C15D797E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A006806F-1C22-437A-832B-9DD3C15D797E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{16DC84E0-746D-49B7-83DD-97925C9F0E54} = {CA971731-CD31-4777-9E48-882F77A2A7E3}
 		{7CFD9487-51C2-4F80-AB38-C49BE2DF340D} = {937A59DD-5D28-47C4-95EC-609BAD268C39}
 		{6A2FAED3-97FE-4790-9C97-472BA991AD29} = {937A59DD-5D28-47C4-95EC-609BAD268C39}
+		{A006806F-1C22-437A-832B-9DD3C15D797E} = {DEB9AAC4-B971-4C62-9AF7-7508911BAD4F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3E04F256-8CF7-4F13-990E-520F5E3EF120}

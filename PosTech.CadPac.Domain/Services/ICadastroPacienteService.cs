@@ -1,6 +1,6 @@
 ﻿namespace PosTech.CadPac.Domain.Services
 {
-    internal class ICadPacService
+    public interface ICadastroPacienteService
     {
     }
 }

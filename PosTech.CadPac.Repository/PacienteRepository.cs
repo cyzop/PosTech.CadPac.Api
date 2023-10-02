@@ -14,7 +14,9 @@ namespace PosTech.CadPac.Repository
 
         public PacienteRepository(RepositorySettings config)
         {
-            var mongoClient = new MongoClient(config.ConnectionString);
+            string connectionString = string.Format(config.ConnectionString, config.Secret);
+
+            var mongoClient = new MongoClient(connectionString);
             var mongoDataBase = mongoClient.GetDatabase(config.DataBase);
 
             _database = mongoDataBase.GetCollection<PacienteDataModel>(config.RepositoryName);
