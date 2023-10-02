@@ -1,4 +1,4 @@
-﻿namespace PosTech.CadPac.Interface
+﻿namespace PosTech.CadPac.Domain
 {
     public class Class1
     {
