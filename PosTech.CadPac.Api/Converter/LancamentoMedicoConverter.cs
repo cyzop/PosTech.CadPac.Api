@@ -11,7 +11,7 @@ namespace PosTech.CadPac.Api.Converter
                 Id = origing.Id,
                 Data = origing.Data,
                 Texto = origing.Texto,
-                Tipo = (TipoLancamentoMedicoDto) System.Enum.Parse<TipoLancamentoMedicoDto>(origing.Tipo.ToString())
+                Tipo = System.Enum.Parse<TipoLancamentoMedicoDto>(origing.Tipo.ToString()).ToString(),
             };
     }
 }

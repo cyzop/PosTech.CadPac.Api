@@ -12,7 +12,12 @@ namespace PosTech.CadPac.Api.ValidationAttribute
             if (enumParsed)
                 return ValidationResult.Success;
             else
-                return new ValidationResult($"Tipo {value} inválido para o lançamento médido!");
+            {
+                var enumValues = Enum.GetValues(typeof(TipoLancamentoMedicoDto)).Cast<TipoLancamentoMedicoDto>().ToList();
+                var tipo = validationContext.ObjectInstance.GetType().Name;
+                var msg = $"Valor {value} inválido para o {tipo}! Tipos esperados: {string.Join(", ", enumValues)}.";
+                return new ValidationResult(msg);
+            }
         }
     }
 }

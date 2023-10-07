@@ -5,7 +5,6 @@ namespace PosTech.CadPac.Api.Models
 {
     public class PessoaDto : Entity
     {
-
         public string? Id { get; set; }
 
         [Required]

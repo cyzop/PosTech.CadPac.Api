@@ -61,7 +61,7 @@ namespace PosTech.CadPac.Services
                 registroMedico.SetId(Guid.NewGuid().ToString());
 
             var paciente = _repository.GetById(pacienteId);
-            paciente.HistoricoMedico.ToList().Add(registroMedico);
+            paciente.AddRegistroMedico(registroMedico);
             _repository.UpSert(paciente);
 
             return registroMedico;

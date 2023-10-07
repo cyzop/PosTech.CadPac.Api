@@ -11,7 +11,7 @@ namespace PosTech.CadPac.Api.Converter
                 origing.Id, 
                 origing.Data, 
                 origing.Texto, 
-                (TipoRegistroMedico) System.Enum.Parse<TipoRegistroMedico>(origing.Tipo.ToString()));
+                (TipoRegistroMedico) System.Enum.Parse<TipoRegistroMedico>(origing.Tipo));
         
     }
 }

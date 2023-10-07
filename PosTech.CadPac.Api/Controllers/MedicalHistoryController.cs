@@ -72,7 +72,7 @@ namespace PosTech.CadPac.Api.Controllers
 
         [HttpPost]
         [Route("idUsuario")]
-        public IActionResult PostLancamento(string idUsuario, LancamentoMedicoDto lancamento)
+        public IActionResult PostLancamento(string idUsuario, [FromBody] LancamentoMedicoDto lancamento)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,9 @@ namespace PosTech.CadPac.Api.Controllers
             }
             else
             {
-                var erros = ModelState.Values.Select(x => x.Errors[0].ErrorMessage).ToList();
+                var erros = ModelState.Values
+                    .Where(x=> x.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                    .Select(x =>  x.Errors?.FirstOrDefault()?.ErrorMessage).ToList();
                 return BadRequest(new { 
                     PayloadErros = erros
                 });

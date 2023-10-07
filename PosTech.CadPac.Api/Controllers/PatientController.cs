@@ -12,34 +12,39 @@ namespace PosTech.CadPac.Api.Controllers
     {
         private readonly ICadastroPacienteService _pacientes;
         private readonly ILogger<PatientController> _logger;
-        private readonly IConverter<Paciente, PessoaDto> _pacienteConverter;
+        private readonly IConverter<Paciente, PessoaDto> _pacienteToPessoaDtoConverter;
+        private readonly IConverter<Paciente, PacienteDto> _pacienteConverter;
         private readonly IConverter<PessoaDto, Paciente> _pessoaDtoConverter;
 
-        public PatientController(ICadastroPacienteService pacientes, ILogger<PatientController> logger, IConverter<Paciente, PessoaDto> pacienteConverter, IConverter<PessoaDto, Paciente> pessoaDtoConverter)
+        public PatientController(ICadastroPacienteService pacientes, ILogger<PatientController> logger, IConverter<Paciente, PessoaDto> pacienteToPessoaDtoConverter, IConverter<PessoaDto, Paciente> pessoaDtoConverter, IConverter<Paciente, PacienteDto> pacienteConverter)
         {
             _pacientes = pacientes;
             _logger = logger;
-            _pacienteConverter = pacienteConverter;
+            _pacienteToPessoaDtoConverter = pacienteToPessoaDtoConverter;
             _pessoaDtoConverter = pessoaDtoConverter;
+            _pacienteConverter = pacienteConverter;
         }
 
         [HttpGet]
         public IActionResult GetPacientes()
         {
-            return Ok(_pacientes.GetAll());
+            return Ok(_pacientes
+                    .GetAll()
+                    .Select(e => _pacienteConverter
+                            .Convert(e)));
         }
 
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Paciente))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PacienteDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetPaciente(string id)
         {
             _logger.LogInformation("GetPaciente", id);
             var paciente = _pacientes.GetPaciente(id);
             if (paciente != null)
-                return 
-                    Ok(_pacienteConverter
+                return
+                    Ok(_pacienteToPessoaDtoConverter
                         .Convert(paciente));
             else
                 return NotFound();
@@ -56,12 +61,12 @@ namespace PosTech.CadPac.Api.Controllers
                 _logger.LogInformation("PutPaciente {Nome}", paciente.Nome);
 
                 var pacienteData = _pessoaDtoConverter.Convert(paciente);
-                
+
                 if (pacienteData != null)
                 {
                     var pacienteAlterado = _pacientes.UpdatePacienteData(pacienteData);
 
-                    return Ok(_pacienteConverter
+                    return Ok(_pacienteToPessoaDtoConverter
                         .Convert(pacienteAlterado)
                         );
                 }
@@ -70,7 +75,9 @@ namespace PosTech.CadPac.Api.Controllers
             }
             else
             {
-                var erros = ModelState.Values.Select(x => x.Errors[0].ErrorMessage).ToList();
+                var erros = ModelState.Values
+                    .Where(x => x.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                    .Select(x => x.Errors?.FirstOrDefault()?.ErrorMessage).ToList();
                 return BadRequest(new
                 {
                     PayloadErros = erros
@@ -85,13 +92,19 @@ namespace PosTech.CadPac.Api.Controllers
             if (ModelState.IsValid)
             {
                 _logger.LogInformation("Post {Id}", paciente.Id);
+                //PessoaDto to Paciente
                 var novoPaciente = _pessoaDtoConverter.Convert(paciente);
+                //Paciente (saved with id) to PessoaDto
+                var pacienteSaved = _pacientes.SavePaciente(novoPaciente);
 
-                return Ok(_pacientes.SavePaciente(novoPaciente));
+                return Ok(_pacienteToPessoaDtoConverter
+                    .Convert(pacienteSaved));
             }
             else
             {
-                var erros = ModelState.Values.Select(x => x.Errors[0].ErrorMessage).ToList();
+                var erros = ModelState.Values
+                    .Where(x => x.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                    .Select(x => x.Errors?.FirstOrDefault()?.ErrorMessage).ToList();
                 return BadRequest(new
                 {
                     PayloadErros = erros

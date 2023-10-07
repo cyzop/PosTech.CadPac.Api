@@ -37,8 +37,10 @@ namespace PosTech.CadPac.Domain.Entities
             get; 
             private set; }
 
-        public void AddRegistroMedico(RegistroMedico registroMedico) 
-            => this.HistoricoMedico.ToList().Add(registroMedico);
+        public void AddRegistroMedico(RegistroMedico registroMedico)
+        { 
+            this.HistoricoMedico = this.HistoricoMedico.Concat(new[] { registroMedico });
+        }
 
         public void SetNome(string nome)
         {

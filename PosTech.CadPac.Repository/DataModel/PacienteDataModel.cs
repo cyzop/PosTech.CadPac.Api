@@ -46,7 +46,7 @@ namespace PosTech.CadPac.Repository.DataModel
             private set;
         }
 
-        public IEnumerable<RegistroMedicoDataModel> HistoricoMedico
+        public List<RegistroMedicoDataModel> HistoricoMedico
         {
             get;
             private set;
@@ -54,7 +54,7 @@ namespace PosTech.CadPac.Repository.DataModel
 
         public void AddRegistroMedico(RegistroMedicoDataModel registroMedicoDataModel)
         {
-            this.HistoricoMedico.ToList().Add(registroMedicoDataModel);
+            this.HistoricoMedico.Add(registroMedicoDataModel);
         }
     }
 }
