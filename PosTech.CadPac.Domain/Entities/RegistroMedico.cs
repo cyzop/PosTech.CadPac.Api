@@ -27,5 +27,22 @@ namespace PosTech.CadPac.Domain.Entities
         public TipoRegistroMedico Tipo { 
             get; 
             private set; }
+
+        public void SetId(string id)
+        {
+            this.Id = id;
+        }
+        public void SetData(DateTime data) { 
+            this.Data = data;
+        }
+
+        public void SetTexto(string texto)
+        {
+            this.Texto = texto; 
+        }
+        public void SetTipo(TipoRegistroMedico tipo)
+        {
+            this.Tipo = tipo;   
+        }
     }
 }

@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PosTech.CadPac.Domain.Shared.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace PosTech.CadPac.Api.Models
 {
-    public class Pessoa
+    public class PessoaDto : Entity
     {
 
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [Required]
         public string Nome { get; set; }

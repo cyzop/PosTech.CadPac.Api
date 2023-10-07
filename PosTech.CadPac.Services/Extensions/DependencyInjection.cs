@@ -13,7 +13,7 @@ namespace PosTech.CadPac.Services.Extensions
             services.AddRepositories(configuration);
 
             //TODO: add services
-            services.AddSingleton<ICadastroPacienteService, CadastroPacienteService>();
+            services.AddScoped<ICadastroPacienteService, CadastroPacienteService>();
 
             return services;
         }

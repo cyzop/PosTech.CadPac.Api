@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PosTech.CadPac.Api.Models;
+using PosTech.CadPac.Domain.Entities;
+using PosTech.CadPac.Domain.Services;
+using PosTech.CadPac.Domain.Shared.Converter;
 
 namespace PosTech.CadPac.Api.Controllers
 {
@@ -7,74 +10,80 @@ namespace PosTech.CadPac.Api.Controllers
     [Route("[controller]")]
     public class MedicalHistoryController : ControllerBase
     {
-        private List<Paciente> pacientes = new List<Paciente>();
+        private readonly ICadastroPacienteService _pacientes;
+        private readonly ILogger<MedicalHistoryController> _logger;
 
-        public MedicalHistoryController(List<Paciente> pacientes)
+        private readonly IConverter<RegistroMedico, LancamentoMedicoDto> _lancamentoConverter;
+        private readonly IConverter<LancamentoMedicoDto, RegistroMedico> _lancamentoDtoConverter;
+
+        public MedicalHistoryController(ICadastroPacienteService pacientes, ILogger<MedicalHistoryController> logger, IConverter<RegistroMedico, LancamentoMedicoDto> lancamentoConverter, IConverter<LancamentoMedicoDto, RegistroMedico> lancamentoDtoConverter)
         {
-            this.pacientes = pacientes;
+            _pacientes = pacientes;
+            _logger = logger;
+            _lancamentoConverter = lancamentoConverter;
+            _lancamentoDtoConverter = lancamentoDtoConverter;
         }
 
         [HttpGet]
         [Route("patient/{idUsuario}")]
-        public IActionResult GetHistoriUsuario(string idUsuario)
+        public IActionResult GetHistoricoUsuario(string idUsuario)
         {
-            var paciente = pacientes.Find(p => p.Id == idUsuario);
-            if (paciente != null)
-                return Ok(paciente.Historico);
+            _logger.LogInformation("GetHistoricoUsuario", idUsuario);
+
+            var historico = _pacientes.GetHistoricoMedico(idUsuario);
+            if (historico != null)
+            {
+                return Ok(historico.Select(e => _lancamentoConverter.Convert(e)));
+            }
             else
-                return NotFound();
+                return NoContent();
         }
 
         [HttpGet]
         [Route("{idUsuario}/{id}")]
         public IActionResult GetLancamento(string idUsuario, string id)
         {
-            var paciente = pacientes.Find(p => p.Id == idUsuario);
-            if (paciente != null)
-            {
-                var lancamento = paciente.Historico.Find(h => h.id == id);
-                return Ok(lancamento);
-            }
+
+            var lancamento = _pacientes.GetLancamentoMedico(idUsuario, id);
+            if (lancamento != null)
+                return Ok(_lancamentoConverter
+                    .Convert(lancamento));
             else
-                return NotFound();
+                return NoContent();
         }
 
         [HttpDelete]
         [Route("{idUsuario}/{id}")]
         public IActionResult DeleteLancamento(string idUsuario, string id)
         {
-            var paciente = pacientes.Find(p => p.Id == idUsuario);
-            if (paciente != null)
+            try
             {
-                var lancamento = paciente.Historico.Find(h => h.id == id);
-                if (lancamento != null)
-                {
-                    paciente.Historico.Remove(lancamento);
-                    return Ok(paciente.Historico);
-                }
-            }
+                _logger.LogInformation("DeleteLancamento", idUsuario, id);
 
-            return NotFound();
+                _pacientes.RemoveLancamentoMedico(idUsuario, id);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "DeleteLancamento {Message}", ex.Message);
+                return NotFound();
+            }
         }
 
         [HttpPost]
         [Route("idUsuario")]
-        public IActionResult PostLancamento(string idUsuario, LancamentoMedico lancamento)
+        public IActionResult PostLancamento(string idUsuario, LancamentoMedicoDto lancamento)
         {
             if (ModelState.IsValid)
             {
-                var paciente = pacientes.Find(p => p.Id == idUsuario);
-                if (paciente != null)
-                {
-                    if (paciente.Historico == null)
-                        paciente.Historico = new List<LancamentoMedico>();
-
-                    paciente.Historico.Add(lancamento);
-
-                    return Ok(paciente.Historico);
-                }
-
-                return NotFound();
+                var novoLancamento = _lancamentoDtoConverter.Convert(lancamento);
+                
+                var registroMedico = _pacientes.SaveLancamentoMedico(idUsuario, novoLancamento);
+                if (registroMedico != null)
+                    return Ok(_lancamentoConverter
+                        .Convert(registroMedico));
+                else
+                    return NotFound();
             }
             else
             {

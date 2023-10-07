@@ -7,7 +7,7 @@ namespace PosTech.CadPac.Api.ValidationAttribute
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            var enumParsed = Enum.TryParse<TipoLancamentoMedico>(value?.ToString(), out var tipoLancamento);
+            var enumParsed = Enum.TryParse<TipoLancamentoMedicoDto>(value?.ToString(), out var tipoLancamento);
 
             if (enumParsed)
                 return ValidationResult.Success;

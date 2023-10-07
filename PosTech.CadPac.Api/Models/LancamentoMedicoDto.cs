@@ -1,12 +1,13 @@
 ﻿using PosTech.CadPac.Api.ValidationAttribute;
+using PosTech.CadPac.Domain.Shared.Entities;
 using System.ComponentModel.DataAnnotations;
 using static PosTech.CadPac.Api.Models.Enum;
 
 namespace PosTech.CadPac.Api.Models
 {
-    public class LancamentoMedico
+    public class LancamentoMedicoDto : Entity
     {
-        public string id { get;set; }
+        public string Id { get;set; }
         [Required]
         public DateTime Data { get; set; }
 
@@ -17,6 +18,6 @@ namespace PosTech.CadPac.Api.Models
 
         [Required]
         [TipoLancamentoMedicoValidation]
-        public TipoLancamentoMedico Tipo { get; set; }
+        public TipoLancamentoMedicoDto Tipo { get; set; }
     }
 }

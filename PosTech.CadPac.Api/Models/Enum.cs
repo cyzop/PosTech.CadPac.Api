@@ -2,7 +2,7 @@
 {
     public static class Enum
     {
-        public enum TipoLancamentoMedico
+        public enum TipoLancamentoMedicoDto
         {
             Sintoma,
             Diagnostico,

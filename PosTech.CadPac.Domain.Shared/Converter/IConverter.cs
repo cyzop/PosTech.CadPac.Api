@@ -2,7 +2,7 @@
 
 namespace PosTech.CadPac.Domain.Shared.Converter
 {
-    public interface IConverter<in I, out O> where I : Entity where O : Entity
+    public interface IConverter<I, O> where I : Entity where O : Entity
     {
         public O Convert(I origing);
     }
