@@ -25,6 +25,11 @@ namespace PosTech.CadPac.Api.Controllers
             _pacienteConverter = pacienteConverter;
         }
 
+        /// <summary>
+        /// Retorna a listagem de pacientes
+        /// </summary>
+        /// <response code="200">Retorno realizado com sucesso</response>
+        /// <response code="400">Falha na consulta dos pacientes</response>
         [HttpGet]
         public IActionResult GetPacientes()
         {
@@ -34,6 +39,12 @@ namespace PosTech.CadPac.Api.Controllers
                             .Convert(e)));
         }
 
+        /// <summary>
+        /// Retorna as informações de um paciente, identificado pelo id, e seu histórico médico 
+        /// </summary>
+        /// <param name="id"> Identificador do Paciente </param>
+        /// <response code="200">Retorno realizado com sucesso</response>
+        /// <response code="404">Paciente não encontrado</response>
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PacienteDto))]
@@ -50,6 +61,12 @@ namespace PosTech.CadPac.Api.Controllers
                 return NotFound();
         }
 
+        /// <summary>
+        /// Atualiza as informações do Paciente
+        /// </summary>
+        /// <param name="paciente">Json representando as informações do Paciente</param>
+        /// <response code="200">Paciente atualizado com sucesso</response>
+        /// <response code="404">Paciente não encontrado</response>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PessoaDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -84,6 +101,13 @@ namespace PosTech.CadPac.Api.Controllers
                 });
             }
         }
+
+        /// <summary>
+        /// Inclusão de um novo Paciente
+        /// </summary>
+        /// <param name="paciente">Json representando as informações do Paciente</param>
+        /// <response code="200">Paciente atualizado com sucesso</response>
+        /// <response code="400">Falha na inclusão do Paciente</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PessoaDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -111,6 +135,12 @@ namespace PosTech.CadPac.Api.Controllers
                 });
             }
         }
+        /// <summary>
+        /// Exclusão de um paciente
+        /// </summary>
+        /// <param name="id">Identificador do Paciente</param>
+        /// <response code="200">Paciente excluído com sucesso</response>
+        /// <response code="400">Falha na exclusão do Paciente</response>
         [HttpDelete("{id}")]
         public IActionResult DeletePaciente(string id)
         {

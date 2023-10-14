@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using PosTech.CadPac.Api.Extensions;
-
+using System.Reflection;
 
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
@@ -8,23 +11,7 @@ var configuration = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-//List<PacienteDto> pacientes = new List<PacienteDto>();
-
-////1 - pacientes
-//pacientes.Add(new PacienteDto() { Id = "9d311731-8837-4dfb-ab5f-940304e3933a", Nome = "José da silva", DataNascimento = new DateTime(1999,10,12), Email = "jose.silva@seuemail.com", Responsavel = "Maria José da Silva", Historico = new List<LancamentoMedicoDto>() });
-//pacientes.Add(new PacienteDto() { Id = "b3e17a87-68e8-45b8-8b91-1e7dc8da5843", Nome = "Maria Aparecida", DataNascimento = new DateTime(2000,10,02), Email = "maria.aparecida@seuemail.com", Responsavel = "", Historico = new List<LancamentoMedicoDto>() });
-//pacientes.Add(new PacienteDto() { Id = "facd9c1c-c0a8-4d39-8ad7-2e628c6b7572", Nome = "Fernando Henrique", DataNascimento = new DateTime(2010,10,02), Email = "fernandohenrique@seuemail.com", Responsavel = "", Historico = new List<LancamentoMedicoDto>() });
-//pacientes.Add(new PacienteDto() { Id = "21184bf5-0ce4-4528-851a-ebd76928f8cb", Nome = "Barbara Heleonora", DataNascimento = new DateTime(2004,10,02), Email = "babiheleonora@seuemail.com", Responsavel = "", Historico = new List<LancamentoMedicoDto>() });
-
-////2 - hitorico
-//pacientes[0].Historico.Add(new LancamentoMedicoDto() { Data = DateTime.Now, Id = Guid.NewGuid().ToString(), Tipo = TipoLancamentoMedicoDto.Sintoma, Texto = "Dor nos olhos" });
-//pacientes[0].Historico.Add(new LancamentoMedicoDto() { Data = DateTime.Now, Id = Guid.NewGuid().ToString(), Tipo = TipoLancamentoMedicoDto.Diagnostico, Texto = "Conjuntivite" });
-//pacientes[0].Historico.Add(new LancamentoMedicoDto() { Data = DateTime.Now, Id = Guid.NewGuid().ToString(), Tipo = TipoLancamentoMedicoDto.Sintoma, Texto = "Colírio de 4 em 4 horas" });
 
 builder.Host.ConfigureServices(services =>
 {
@@ -46,12 +33,34 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "PosTech.CadPac.Api",
-        Version = "v1"
-    });
+        Title = "PosTech.CadastroPaciente.Api",
+        Version = "v1",
+        Description = @"Esta api permite listar, criar e atualizar pacientes com seu respectivo histórico médico. </br></br>
+                        O projeto foi desenvolvido como parte do curso PÓS TECH ARQUITETURA DE SISTEMAS .NET COM AZURE. </br></br>
+                        Mais informações sobre o projeto e como executá-lo podem ser encontradas no repositório do <a target=""_blank"" href=""https://github.com/cyzop/PosTech.CadPac.Api"" rel=""noopener noreferrer"" class=""link"">GitHub</a> </br></br>",
+
+        License = new OpenApiLicense() { 
+            Name = "MIT License", 
+            Url= new Uri("https://github.com/cyzop/PosTech.CadPac.Api/blob/master/LICENSE") },
+       
+
+    });;
+
+    var xmlSummary = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlSummary);
+
+    options.IncludeXmlComments(xmlPath);
+
+    //complementar com Redoc
 });
 
 var app = builder.Build();
+
+//app.UseReDoc(c =>
+//{
+//    c.DocumentTitle = "";
+//    c.RoutePrefix = "";
+//});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
