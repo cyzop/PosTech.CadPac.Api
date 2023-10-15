@@ -24,13 +24,20 @@ namespace PosTech.CadPac.Api.Controllers
             _lancamentoDtoConverter = lancamentoDtoConverter;
         }
 
-        [HttpGet]
-        [Route("patient/{idUsuario}")]
-        public IActionResult GetHistoricoUsuario(string idUsuario)
-        {
-            _logger.LogInformation("GetHistoricoUsuario", idUsuario);
 
-            var historico = _pacientes.GetHistoricoMedico(idUsuario);
+        /// <summary>
+        /// Retorna o histórico médico do paciente
+        /// </summary>
+        /// <param name="idPaciente">Identificador do Paciente</param>
+        /// <response code="200">Retorno realizado com sucesso</response>
+        /// <response code="204">Paciente sem hitórico médico</response>
+        [HttpGet]
+        [Route("patient/{idPaciente}")]
+        public IActionResult GetHistoricoUsuario(string idPaciente)
+        {
+            _logger.LogInformation("GetHistoricoUsuario", idPaciente);
+
+            var historico = _pacientes.GetHistoricoMedico(idPaciente);
             if (historico != null)
             {
                 return Ok(historico.Select(e => _lancamentoConverter.Convert(e)));
@@ -39,28 +46,42 @@ namespace PosTech.CadPac.Api.Controllers
                 return NoContent();
         }
 
+        /// <summary>
+        /// Lançamento médico do histórico médico do paciente, pode ser um registro de Sintoma, Diagnóstico ou Tratamento
+        /// </summary>
+        /// <param name="idPaciente">Identificador do Paciente</param>
+        /// <param name="id">Identificador do Lançamento Médico</param>
+        /// <response code="200">Retorno realizado com sucesso</response>
+        /// <response code="404">Lançamento médico não encontrado para o Paciente</response>
         [HttpGet]
-        [Route("{idUsuario}/{id}")]
-        public IActionResult GetLancamento(string idUsuario, string id)
+        [Route("{idPaciente}/{id}")]
+        public IActionResult GetLancamento(string idPaciente, string id)
         {
 
-            var lancamento = _pacientes.GetLancamentoMedico(idUsuario, id);
+            var lancamento = _pacientes.GetLancamentoMedico(idPaciente, id);
             if (lancamento != null)
                 return Ok(_lancamentoConverter
                     .Convert(lancamento));
             else
-                return NoContent();
+                return NotFound();
         }
 
+        /// <summary>
+        /// Excluir o lançamento médico do histórico médico do paciente
+        /// </summary>
+        /// <param name="idPaciente">Identificador do Paciente</param>
+        /// <param name="id">Identificador do Lançamento Médico</param>
+        /// <response code="200">Exclusão realizada com sucesso</response>
+        /// <response code="404">Lançamento médico não encontrado para o Paciente</response>
         [HttpDelete]
-        [Route("{idUsuario}/{id}")]
-        public IActionResult DeleteLancamento(string idUsuario, string id)
+        [Route("{idPaciente}/{id}")]
+        public IActionResult DeleteLancamento(string idPaciente, string id)
         {
             try
             {
-                _logger.LogInformation("DeleteLancamento", idUsuario, id);
+                _logger.LogInformation("DeleteLancamento", idPaciente, id);
 
-                _pacientes.RemoveLancamentoMedico(idUsuario, id);
+                _pacientes.RemoveLancamentoMedico(idPaciente, id);
                 return Ok();
             }
             catch(Exception ex)
@@ -69,16 +90,23 @@ namespace PosTech.CadPac.Api.Controllers
                 return NotFound();
             }
         }
-
+        
+        /// <summary>
+        /// Incluir lançamento médico no histórico médico do paciente
+        /// </summary>
+        /// <param name="idPaciente">Identificador do Paciente</param>
+        /// <param name="lancamento">Lançamento métido para o histórico do paciente</param>
+        /// <response code="200">Exclusão realizada com sucesso</response>
+        /// <response code="404">Lançamento médico não encontrado para o Paciente</response>
         [HttpPost]
-        [Route("idUsuario")]
-        public IActionResult PostLancamento(string idUsuario, [FromBody] LancamentoMedicoDto lancamento)
+        [Route("idPaciente")]
+        public IActionResult PostLancamento(string idPaciente, [FromBody] LancamentoMedicoDto lancamento)
         {
             if (ModelState.IsValid)
             {
                 var novoLancamento = _lancamentoDtoConverter.Convert(lancamento);
                 
-                var registroMedico = _pacientes.SaveLancamentoMedico(idUsuario, novoLancamento);
+                var registroMedico = _pacientes.SaveLancamentoMedico(idPaciente, novoLancamento);
                 if (registroMedico != null)
                     return Ok(_lancamentoConverter
                         .Convert(registroMedico));
