@@ -28,15 +28,16 @@ A aplicação consite em uma listagem de pacientes, onde ao consultar um pacient
 # clonar o repositório
 git clone https://github.com/cyzop/rep-test-project
 ```
-```Database
-# MongoDb
 
-Pode utilizar tanto a instalação local do banco de dados (OnPremisses), quanto a utilização do banco Cloud DBaaS.
+### MongoDb
 
-# Para utilizar instalação local
+Pode utilizar tanto a instalação local do banco de dados (OnPremise), quanto a utilização do banco Cloud DBaaS.
+
+### Para utilizar instalação local
 - Instalar o banco NoSql MongoDB localmente
 - Ajustar os parâmetros de configuração no arquivo appsettings.json da api (ConnectionString e Secret).
 
+``` AppSettings OnPremise
 Exemplo:
  "RepositorySettings": {
     "ConnectionString": "mongodb://localhost:27017",
@@ -44,10 +45,12 @@ Exemplo:
     "RepositoryName": "PacienteCollection",
     "Secret": ""
   }
+```
 
-# Para utilizar banco em núvem
+### Para utilizar banco em núvem
 - Ajustar os parêmtros de configuração no arquivo appsettings.json da api (ConnectionString e Secret), configurando a url do servidor em núvem, e usuário e senha para autenticação do acesso
 
+``` AppSettings DBaaS
 Exemplo:
  "RepositorySettings": {
     "ConnectionString": "mongodb+srv://{0}@mongocluster.3oa3jww.mongodb.net/",
@@ -56,4 +59,7 @@ Exemplo:
     "Secret": "usuariobancodedados:senhadousuariobancodedados"
   }
 ```
-
+### Utilizando o Visual Studio Community 2022
+- Abrir a solução do projeto (PosTech.CadPac.Api.sln) no VS
+- Definir o projeto PosTech.CadPac.Api como projeto para inicialização
+- Iniciar o projeto com Depuração apertando o F5, para executar o projeto utilizando o Swagger
