@@ -57,7 +57,7 @@ namespace PosTech.CadPac.Services
 
         public RegistroMedico SaveLancamentoMedico(string pacienteId, RegistroMedico registroMedico)
         {
-            if (registroMedico.Id == null)
+            if (registroMedico.Id == null || !Guid.TryParse(registroMedico.Id, out _))
                 registroMedico.SetId(Guid.NewGuid().ToString());
 
             var paciente = _repository.GetById(pacienteId);
