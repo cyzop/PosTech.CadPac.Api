@@ -45,7 +45,7 @@ namespace PosTech.CadPac.Services
             var lancamento = paciente.HistoricoMedico.Where(h => h.Id == lancamentoId).First();
             if (lancamento != null)
             {
-                paciente.HistoricoMedico.ToList().Remove(lancamento);
+                paciente.DeleteRegistroMedico(lancamento);
                 _repository.UpSert(paciente);
             }
         }

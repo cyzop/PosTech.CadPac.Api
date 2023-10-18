@@ -42,6 +42,13 @@ namespace PosTech.CadPac.Domain.Entities
             this.HistoricoMedico = this.HistoricoMedico.Concat(new[] { registroMedico });
         }
 
+        public void DeleteRegistroMedico(RegistroMedico registroMedico)
+        {
+            var lista = this.HistoricoMedico.ToList();
+            lista.Remove(registroMedico);
+            this.HistoricoMedico = lista;
+        }
+
         public void SetNome(string nome)
         {
             Nome = nome;
