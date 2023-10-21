@@ -11,25 +11,32 @@ Este cadastro tem o intuito de armazenar, de forma simplificada, o histórico m�
 
 A aplicação consite em uma listagem de pacientes, onde ao consultar um paciente será paresentado seu Histório Médico contendo os Sintomas reportados, os Diagnósticos e os respectivos Tratamentos prescritos pelo médico.
 
-## Modelo Conceitual
+Mais informações sobre o projeto podem ser encontradas na documentação disponível [aqui](https://github.com/cyzop/blob/Master/PosTech.CadPac.Api/CastroPacientesDoc.docx)
 
-# Tecnologias utilizadas
-## Back end
+Este repositório se refere ao back end da aplicação e caso desejado pode ser utilizado com o Swagger (disponível em modo Debug).
+
+O projeto Front end está disponível [aqui](https://github.com/AdrianoBinhara/Main/PosTech-Doc)
+
+
+# 📋 Tecnologias utilizadas
+
+ ## Back end
 - Microsoft .Net Core 7
 - MongoDB
 
 ## Front end
+- Microsoft .NET MAUI
+  
+# 🔧 Como executar o projeto (Back End)
 
-# Como executar o projeto
-
-## Back end
+## Baixando o código
 
 ```bash
 # clonar o repositório
-git clone https://github.com/cyzop/rep-test-project
+git clone https://github.com/cyzop/PosTech.CadPac.Api
 ```
 
-### MongoDb
+## MongoDb
 
 Pode utilizar tanto a instalação local do banco de dados (OnPremise), quanto a utilização do banco Cloud DBaaS.
 
@@ -59,7 +66,9 @@ Exemplo:
     "Secret": "usuariobancodedados:senhadousuariobancodedados"
   }
 ```
-### Utilizando o Visual Studio Community 2022
+
+## Utilizando o Visual Studio Community 2022 para rodar o Backend localmente
+
 - Abrir a solução do projeto (PosTech.CadPac.Api.sln) no VS
 - Definir o projeto PosTech.CadPac.Api como projeto para inicialização
 - Iniciar o projeto com Depuração apertando o F5, para executar o projeto utilizando o Swagger
