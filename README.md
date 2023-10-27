@@ -75,5 +75,5 @@ Exemplo:
 
 ## Integrantes do Grupo de Trabalho (Grupo 36)
 - Adriano Binhara RM351013
-- Cristiano Soder RM
+- Cristiano Soder RM352061
 - Ricardo Moreira RM351064 
