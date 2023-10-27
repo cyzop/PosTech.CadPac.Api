@@ -15,7 +15,7 @@ Mais informações sobre o projeto podem ser encontradas na documentação dispo
 
 Este repositório se refere ao back end da aplicação e caso desejado pode ser utilizado com o Swagger (disponível em modo Debug).
 
-O projeto Front end está disponível [aqui](https://github.com/AdrianoBinhara/Main/PosTech-Doc)
+O projeto Front end está disponível [aqui](https://github.com/AdrianoBinhara/PosTech-Doc)
 
 
 # 📋 Tecnologias utilizadas
@@ -72,3 +72,8 @@ Exemplo:
 - Abrir a solução do projeto (PosTech.CadPac.Api.sln) no VS
 - Definir o projeto PosTech.CadPac.Api como projeto para inicialização
 - Iniciar o projeto com Depuração apertando o F5, para executar o projeto utilizando o Swagger
+
+## Integrantes do Grupo de Trabalho (Grupo 36)
+- Adriano Binhara RM351013
+- Cristiano Soder RM
+- Ricardo Moreira RM351064 
